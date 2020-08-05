@@ -1,0 +1,13 @@
+port: 4222
+websocket: {
+  port: 9222
+  no_tls: true
+}
+
+// Operator "memory"
+operator: $OPERATOR_JWT
+
+resolver: MEMORY
+resolver_preload: {
+  $ACCOUNT_PK: $ACCOUNT_JWT
+}
