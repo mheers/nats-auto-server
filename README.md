@@ -5,6 +5,6 @@
 ## Howto
 
 ```bash
-docker build --no-cache=true -t mheers/nats-server .
-docker push mheers/nats-server
+docker build --no-cache=true -t mheers/nats-auto-server .
+docker push mheers/nats-auto-server
 ```
