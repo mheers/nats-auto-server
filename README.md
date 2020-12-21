@@ -8,3 +8,7 @@
 docker build --no-cache=true -t mheers/nats-auto-server .
 docker push mheers/nats-auto-server
 ```
+
+## Change startup behaviour
+
+Mount a different config to `/nats/conf/nats-server.conf.template`

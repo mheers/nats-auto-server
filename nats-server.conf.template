@@ -11,3 +11,6 @@ resolver: MEMORY
 resolver_preload: {
   $ACCOUNT_PK: $ACCOUNT_JWT
 }
+
+debug:   false
+trace:   false

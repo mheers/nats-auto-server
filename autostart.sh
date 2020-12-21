@@ -19,4 +19,4 @@ sed -i "s#\$ACCOUNT_JWT#${ACCOUNT_JWT}#g" nats-server.conf
 echo "Using config:"
 cat ./nats-server.conf
 
-exec nats-server -c ./nats-server.conf -DV
+exec nats-server -c ./nats-server.conf
