@@ -14,3 +14,5 @@ resolver_preload: {
 
 debug:   false
 trace:   false
+
+include ./additional.conf
