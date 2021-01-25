@@ -2,7 +2,7 @@ FROM alpine:3.12
 
 RUN apk add curl wget nano bash jq
 
-COPY --from=synadia/nats-server:nightly-20210107 /bin/nats-server /usr/local/bin/
+COPY --from=synadia/nats-server:nightly-20210123 /bin/nats-server /usr/local/bin/
 COPY --from=mheers/nats-seeder /usr/local/bin/nats-seeder /usr/local/bin/
 
 WORKDIR /nats/conf/

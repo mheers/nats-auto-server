@@ -7,6 +7,15 @@ services:
     environment:
       - OPERATOR_SEED=SOACNU5IOX2ORL3J647J2ZL2OLT3NRFHP6DVWM2A7NDT7JPN4YE3POYQOY
       - ACCOUNT_SEED=SAAOKWQVKSHTHFLC4ZDWLIHTEFZURVHT24FB7WXX6PEFHWGBWJ37EWQWGU
-    command: 
-      - sleep
-      - infinity
+      - TLS=true
+      - WEBSOCKET_PORT=9443
+      # - AUTO=off
+    volumes:
+      # - ./autostart.sh:/autostart.sh
+      # - ./nats-server.conf:/nats/conf/nats-server.conf
+      - ./additional.conf:/nats/conf/additional.conf
+      - ./server-cert.pem:/nats/conf/server-cert.pem
+      - ./server-key.pem:/nats/conf/server-key.pem
+    # command:
+    #   - sleep
+    #   - infinity

@@ -1,0 +1,3 @@
+nats-server
+nats-server.conf
+*.pem

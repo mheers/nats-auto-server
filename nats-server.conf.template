@@ -1,7 +1,7 @@
 port: 4222
 websocket: {
-  port: 9222
-  no_tls: true
+  port: $WEBSOCKET_PORT
+  $TLS_CONFIG
 }
 
 // Operator "memory"
