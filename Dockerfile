@@ -8,7 +8,7 @@ WORKDIR /nats/conf/
 ADD nats-server.conf.template ./
 ADD additional.conf ./
 
-EXPOSE 4222 9222
+EXPOSE 4222 8222 9222
 
 ADD autostart.sh /autostart.sh
 RUN chmod +x /autostart.sh
