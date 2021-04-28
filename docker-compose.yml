@@ -2,7 +2,7 @@
 version: '2.0'
 services:
   test:
-    image: mheers/nats-auto-server
+    image: mheers/nats-auto-server:${NATS_VERSION}
     # build: ./
     environment:
       - OPERATOR_SEED=SOACNU5IOX2ORL3J647J2ZL2OLT3NRFHP6DVWM2A7NDT7JPN4YE3POYQOY
