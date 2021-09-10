@@ -19,5 +19,16 @@ Mount an additional config to `/nats/conf/additional.conf`
 
 ## Local development
 
+```bash
 docker run --entrypoint /bin/sh --rm synadia/nats-server:nightly-20210123 -c "/bin/cat /bin/nats-server" > nats-server && chmod +x nats-server
 ./nats-server -c nats-server.conf
+```
+
+## Test
+
+```bash
+export OPERATOR_SEED=SOACNU5IOX2ORL3J647J2ZL2OLT3NRFHP6DVWM2A7NDT7JPN4YE3POYQOY
+export ACCOUNT_SEED=SAAOKWQVKSHTHFLC4ZDWLIHTEFZURVHT24FB7WXX6PEFHWGBWJ37EWQWGU
+nats-seeder user-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED
+nats-seeder user-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED
+```

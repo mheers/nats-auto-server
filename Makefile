@@ -8,3 +8,6 @@ build:
 
 push:
 	docker push mheers/nats-auto-server:$(NATS_VERSION)
+
+start:
+	docker-compose up

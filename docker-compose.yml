@@ -11,11 +11,12 @@ services:
       - WEBSOCKET_PORT=9443
       # - AUTO=off
     volumes:
-      # - ./autostart.sh:/autostart.sh
+      - ./autostart.sh:/autostart.sh
       # - ./nats-server.conf:/nats/conf/nats-server.conf
       - ./additional.conf:/nats/conf/additional.conf
       - ./server-cert.pem:/nats/conf/server-cert.pem
       - ./server-key.pem:/nats/conf/server-key.pem
+      - ./nats-server.conf.template:/nats/conf/nats-server.conf.template
     # command:
     #   - sleep
     #   - infinity

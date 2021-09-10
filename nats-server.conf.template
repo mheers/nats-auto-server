@@ -10,10 +10,17 @@ operator: $OPERATOR_JWT
 
 resolver: MEMORY
 resolver_preload: {
-  $ACCOUNT_PK: $ACCOUNT_JWT
+  $ACCOUNT_PK: "$ACCOUNT_JWT"
+  $SYS_ACCOUNT_PK: "$SYS_ACCOUNT_JWT"
 }
 
 debug:   false
 trace:   false
 
 include ./additional.conf
+
+system_account: $SYS_ACCOUNT_PK
+
+jetstream {
+   store_dir=/data/
+}

@@ -8,13 +8,21 @@ if [ "$AUTO" != "off" ]; then
     echo "running auto configuration"
     cp ./nats-server.conf.template ./nats-server.conf
 
+    # create operator
     OPERATOR_JWT=$(nats-seeder operator-jwt -o $OPERATOR_SEED -a $OPERATOR_SEED)
     sed -i "s#\$OPERATOR_JWT#${OPERATOR_JWT}#g" nats-server.conf
 
+    # create account
     ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    sed -i "s#\$ACCOUNT_JWT#${ACCOUNT_JWT}#g" nats-server.conf
     ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED)
     sed -i "s#\$ACCOUNT_PK#${ACCOUNT_PK}#g" nats-server.conf
-    sed -i "s#\$ACCOUNT_JWT#${ACCOUNT_JWT}#g" nats-server.conf
+
+    # create sys account
+    SYS_ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    sed -i "s#\$SYS_ACCOUNT_JWT#${SYS_ACCOUNT_JWT}#g" nats-server.conf
+    SYS_ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    sed -i "s#\$SYS_ACCOUNT_PK#${SYS_ACCOUNT_PK}#g" nats-server.conf
 
     # adjust websocket port if defined
     if [ -n "$WEBSOCKET_PORT" ]; then
