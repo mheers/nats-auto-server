@@ -13,15 +13,15 @@ if [ "$AUTO" != "off" ]; then
     sed -i "s#\$OPERATOR_JWT#${OPERATOR_JWT}#g" nats-server.conf
 
     # create account
-    ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
     sed -i "s#\$ACCOUNT_JWT#${ACCOUNT_JWT}#g" nats-server.conf
-    ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
     sed -i "s#\$ACCOUNT_PK#${ACCOUNT_PK}#g" nats-server.conf
 
     # create sys account
-    SYS_ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    SYS_ACCOUNT_JWT=$(nats-seeder sys-account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
     sed -i "s#\$SYS_ACCOUNT_JWT#${SYS_ACCOUNT_JWT}#g" nats-server.conf
-    SYS_ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED)
+    SYS_ACCOUNT_PK=$(nats-seeder sys-account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
     sed -i "s#\$SYS_ACCOUNT_PK#${SYS_ACCOUNT_PK}#g" nats-server.conf
 
     # adjust websocket port if defined
