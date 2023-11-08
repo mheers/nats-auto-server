@@ -8,21 +8,38 @@ if [ "$AUTO" != "off" ]; then
     echo "running auto configuration"
     cp ./nats-server.conf.template ./nats-server.conf
 
-    # create operator
-    OPERATOR_JWT=$(nats-seeder operator-jwt -o $OPERATOR_SEED -a $OPERATOR_SEED)
-    sed -i "s#\$OPERATOR_JWT#${OPERATOR_JWT}#g" nats-server.conf
+    if [ -n "$OPERATOR_SEED" ] && [ -n "$ACCOUNT_SEED" ] && [ -n "$SYS_ACCOUNT_SEED" ]; then
+        if [ "$NO_AUTH" == "true" ]; then
+            echo "no auth enabled AND seeds provided - choose one"
+            exit 1
+        fi
+        # create operator
+        OPERATOR_JWT=$(nats-seeder operator-jwt -o $OPERATOR_SEED -a $OPERATOR_SEED)
+        echo operator: ${OPERATOR_JWT} >> nats-server.conf
 
-    # create account
-    ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
-    sed -i "s#\$ACCOUNT_JWT#${ACCOUNT_JWT}#g" nats-server.conf
-    ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
-    sed -i "s#\$ACCOUNT_PK#${ACCOUNT_PK}#g" nats-server.conf
+        echo resolver: MEMORY >> nats-server.conf
+        echo resolver_preload: { >> nats-server.conf
 
-    # create sys account
-    SYS_ACCOUNT_JWT=$(nats-seeder sys-account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
-    sed -i "s#\$SYS_ACCOUNT_JWT#${SYS_ACCOUNT_JWT}#g" nats-server.conf
-    SYS_ACCOUNT_PK=$(nats-seeder sys-account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
-    sed -i "s#\$SYS_ACCOUNT_PK#${SYS_ACCOUNT_PK}#g" nats-server.conf
+        # create account
+        ACCOUNT_JWT=$(nats-seeder account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
+        ACCOUNT_PK=$(nats-seeder account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
+        echo   $ACCOUNT_PK: "$ACCOUNT_JWT" >> nats-server.conf
+        # create sys account
+        SYS_ACCOUNT_JWT=$(nats-seeder sys-account-jwt -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
+        SYS_ACCOUNT_PK=$(nats-seeder sys-account-public-key -o $OPERATOR_SEED -a $ACCOUNT_SEED -b $SYS_ACCOUNT_SEED)
+        echo   $SYS_ACCOUNT_PK: "$SYS_ACCOUNT_JWT" >> nats-server.conf
+        
+        echo } >> nats-server.conf
+        echo system_account: $SYS_ACCOUNT_PK >> nats-server.conf
+    else
+        echo "no seeds provided"
+        if [ "$NO_AUTH" == "true" ]; then    
+            echo "no auth enabled - starting server without auth"
+        else
+            echo "no OPERATOR_SEED, ACCOUNT_SEED & SYS_ACCOUNT_SEED provided and NO_AUTH is not true - exiting"
+            exit 1
+        fi
+    fi
 
     # adjust websocket port if defined
     if [ -n "$WEBSOCKET_PORT" ]; then
@@ -46,8 +63,6 @@ END
     else
         sed -i "s#\$TLS_CONFIG#no_tls: true#g" nats-server.conf
     fi
-
-    # TODO: do not start if no authentication is available
 fi
 
 echo "Using config:"
