@@ -5,6 +5,7 @@ websocket: {
   $TLS_CONFIG
 }
 
+max_payload: 67108864
 
 debug:   false
 trace:   false
