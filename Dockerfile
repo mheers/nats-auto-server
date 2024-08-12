@@ -1,4 +1,4 @@
-ARG NATS_VERSION
+ARG NATS_VERSION=2.10.18-alpine3.20
 FROM nats:${NATS_VERSION}
 
 RUN apk add curl wget nano bash jq
