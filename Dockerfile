@@ -1,7 +1,13 @@
 ARG NATS_VERSION=2.10.18-alpine3.20
 FROM nats:${NATS_VERSION}
 
-RUN apk add curl wget nano bash jq
+RUN apk add \
+    bash \
+    curl \
+    inotify-tools \
+    jq \
+    nano \
+    wget
 
 COPY --from=mheers/nats-seeder /usr/local/bin/nats-seeder /usr/local/bin/
 COPY --from=mheers/nats-seeder /usr/local/bin/nats /usr/local/bin/
